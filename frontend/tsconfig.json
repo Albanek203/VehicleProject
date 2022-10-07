@@ -7,7 +7,8 @@
       "@env/*": ["environments/*"],
       "@api/*": ["app/api/*"],
       "@config/*": ["app/configuration/*"],
-      "@components/*": ["app/components/*"]
+      "@components/*": ["app/components/*"],
+      "@modules/*": ["app/modules/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
