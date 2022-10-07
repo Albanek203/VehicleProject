@@ -5,8 +5,9 @@
     "baseUrl": "./src",
     "paths": {
       "@env/*": ["environments/*"],
+      "@api/*": ["app/api/*"],
       "@config/*": ["app/configuration/*"],
-      "@api/*": ["app/api/*"]
+      "@components/*": ["app/components/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
