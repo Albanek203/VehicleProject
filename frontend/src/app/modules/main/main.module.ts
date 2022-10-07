@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { routing } from "@modules/main/main.routing";
-import { MainLayoutComponent } from './layout/main-layout.component';
+import { MainLayoutModule } from "@modules/main/layout/main-layout.module";
 
 @NgModule({
   declarations: [
-    MainLayoutComponent
   ],
   imports: [
     routing,
-    CommonModule
+    MainLayoutModule
   ]
 })
 export class MainModule { }
