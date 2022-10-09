@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  justify-content: center;
+
+  .form-title {
+    margin-bottom: 1rem !important;
+    text-align: center;
+    color: #023E8A;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 200px;
+    width: 300px;
+    padding: 25px;
+    border-radius: 20px;
+    background-color: #eef2ff;
+
+    .mat-form-field {
+      margin-bottom: 10px;
+
+      ::ng-deep .mat-form-field-prefix {
+        .mat-icon {
+          margin-right: 5px;
+          margin-bottom: -7px;
+        }
+      }
+    }
+
+    button {
+      margin-top: 10px;
+    }
+  }
+
+  .spinner-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+  }
+}
