@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { MainLayoutComponent } from "@modules/main/layout/main-layout.component";
 import { RouterOutlet } from "@angular/router";
 import { MainHeaderComponent } from './main-header/main-header.component';
+import { ButtonModule } from "primeng/button";
+import { RippleModule } from "primeng/ripple";
+import { MenuModule } from "primeng/menu";
+import { AvatarModule } from "primeng/avatar";
 
 @NgModule({
   declarations: [
@@ -11,7 +15,11 @@ import { MainHeaderComponent } from './main-header/main-header.component';
   ],
   imports: [
     CommonModule,
-    RouterOutlet
+    RouterOutlet,
+    ButtonModule,
+    RippleModule,
+    MenuModule,
+    AvatarModule
   ]
 })
 export class MainLayoutModule { }
