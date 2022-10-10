@@ -3,6 +3,7 @@ package com.transportation.controller;
 import com.transportation.dto.UserDto;
 import com.transportation.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,27 +14,27 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    //@PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
+    @PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
     @GetMapping()
     public List<UserDto> getAll() {
         return userService.getAll();
     }
 
-    //@PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
+    @PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
     @GetMapping("/{id}")
     public UserDto get(@PathVariable Long id) { return userService.get(id); }
 
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public UserDto create(@RequestBody UserDto model) { return userService.create(model); }
 
-    //@PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
+    @PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
     @PutMapping("/{id}")
     public UserDto update(@PathVariable Long id, @RequestBody UserDto model) {
         return userService.update(id, model);
     }
 
-    //@PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
+    @PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         userService.delete(id);
