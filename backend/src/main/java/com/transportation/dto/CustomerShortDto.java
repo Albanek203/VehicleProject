@@ -2,12 +2,9 @@ package com.transportation.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class CustomerDto {
+public class CustomerShortDto {
     private Long id;
     private String name;
     private String phone;
-    private List<IdWrapper> deliveries;
 }

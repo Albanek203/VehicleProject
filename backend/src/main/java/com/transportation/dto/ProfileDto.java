@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class ProfileDto {
     private String email;
     private Role role;

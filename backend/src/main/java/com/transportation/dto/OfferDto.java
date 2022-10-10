@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class OfferDto {
-    private long id;
+    private Long id;
     private String description;
 }

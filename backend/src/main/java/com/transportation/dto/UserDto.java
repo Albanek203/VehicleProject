@@ -6,13 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserDto {
     private Long id;
     private String email;
     private Role role;
     private String name;
     private String surname;
-    private boolean active;
+    private boolean isActive;
 }
