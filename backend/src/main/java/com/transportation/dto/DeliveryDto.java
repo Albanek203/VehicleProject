@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 public class DeliveryDto {
-    private long id;
+    private Long id;
     private int price;
     private String unit;
     private String country_from;
@@ -22,5 +22,6 @@ public class DeliveryDto {
     private LocalDate arrivalDate = LocalDate.now();
     private DeliveryStatus status;
     private String description;
-    private List<IdWrapper> cargos;
+    private List<CargoDto> cargos;
+    private CustomerShortDto customer;
 }
