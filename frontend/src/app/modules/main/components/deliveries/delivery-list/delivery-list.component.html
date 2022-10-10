@@ -1,0 +1,41 @@
+<div class="header-separator"></div>
+
+<div class="card shadow-4">
+  <p-dataView #dataView [value]="deliveries.content" [paginator]="true" [rows]="5" filterBy="name"
+              [sortField]="sortField" [sortOrder]="sortOrder" layout="list">
+    <ng-template pTemplate="header">
+      <div class="flex flex-column md:flex-row md:justify-content-between">
+        <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
+        <span class="p-input-icon-left mb-2 md:mb-0">
+          <i class="pi pi-search"></i>
+          <input type="search" pInputText placeholder="Search by Name" (input)="dataView.filter($any($event.target).value)">
+        </span>
+      </div>
+    </ng-template>
+    <ng-template let-delivery pTemplate="listItem">
+      <div class="col-12">
+        <div class="product-list-item">
+          <img src="https://placehold.co/150x150?text=CustomerLogo"/>
+          <div class="product-list-detail">
+            <div class="product-name">{{delivery.customer.name}}</div>
+            <div class="product-description">{{delivery.description}}</div>
+            <span class="product-way-info">
+              {{delivery.country_from}} {{delivery.city_from}}
+              <i class="fa-solid fa-arrow-right"></i>
+              {{delivery.country_to}} {{delivery.city_to}}
+            </span>
+            <i class="fa-solid fa-calendar-days product-category-icon"></i>
+            <span class="product-category">Departure date: {{replaceFormatDate(delivery.departureDate)}}</span>
+          </div>
+          <div class="product-list-action">
+            <span class="product-price">{{delivery.price}} {{delivery.unit}}</span>
+            <p-button label="Details" [disabled]="delivery.status === DeliveryStatus.CANCELED">
+              <i class="fa-regular fa-eye details-icon"></i>
+            </p-button>
+            <span [class]="'product-badge status-' + delivery.status.toLowerCase()">{{delivery.status.replace('_', ' ')}}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
