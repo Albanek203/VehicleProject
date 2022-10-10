@@ -18,7 +18,7 @@ export class SecurityService {
   login(user: SecurityUser) {
     this.updateUserInLocalStorage(user);
     this._isAuthenticated$.next(true);
-    this.router.navigate(['/']);
+    this.router.navigate([this.hasRole(Role.ADMIN) ? '/admin' : '/']);
   }
 
   logout() {
