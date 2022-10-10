@@ -29,5 +29,5 @@ public class User {
     @Column(nullable = false)
     private String password;
     @Column(columnDefinition = "boolean default true")
-    private Boolean isActivated = true;
+    private Boolean active = true;
 }

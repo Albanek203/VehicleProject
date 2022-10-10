@@ -34,5 +34,5 @@ public class CustomUserDetails implements UserDetails {
     public boolean isCredentialsNonExpired() { return true; }
 
     @Override
-    public boolean isEnabled() { return user.getIsActivated(); }
+    public boolean isEnabled() { return user.getActive(); }
 }

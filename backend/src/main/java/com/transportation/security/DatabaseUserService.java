@@ -19,7 +19,7 @@ public class DatabaseUserService implements UserDetailsService {
         //return userRepository.findByEmail(username).map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException(username));
         User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
-        if (!user.getIsActivated()) throw new AccountIsNotActivatedException();
+        if (!user.getActive()) throw new AccountIsNotActivatedException();
 
         return org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
                 .password(user.getPassword())
