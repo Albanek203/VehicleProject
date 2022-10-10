@@ -38,14 +38,13 @@ public class SecurityConfiguration {
                 .antMatchers("/api/auth/signup").permitAll()
                 .antMatchers("/api/delivery").permitAll()
                 // TODO: Uncomment when security will be implemented
-                .antMatchers("/api/**").authenticated()
-                .antMatchers("/**").permitAll());
+                .antMatchers("/api/**").authenticated());
 
         http.csrf().disable()
                 .cors()
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationFailEntryPoint)
+             /*   .authenticationEntryPoint(authenticationFailEntryPoint)*/
                 .and()
                 .logout().logoutUrl("/api/auth/logout").logoutSuccessHandler(logoutSuccess)
                 .and()
