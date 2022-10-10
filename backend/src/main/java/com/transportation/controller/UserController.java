@@ -3,6 +3,10 @@ package com.transportation.controller;
 import com.transportation.dto.UserDto;
 import com.transportation.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +20,11 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
     @GetMapping()
-    public List<UserDto> getAll() {
-        return userService.getAll();
+    public Page<UserDto> getAll(@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        return userService.getAll(pageable);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
+    @PreAuthorize("hasAnyRole('ADMIN','SUP PORT')")
     @GetMapping("/{id}")
     public UserDto get(@PathVariable Long id) { return userService.get(id); }
 

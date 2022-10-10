@@ -6,6 +6,8 @@ import com.transportation.exception.EntityNotFoundException;
 import com.transportation.mapper.Mapper;
 import com.transportation.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final Mapper mapper;
 
-    public List<UserDto> getAll() {
-        return userRepository.findAll().stream().map(mapper::toUserDto).toList();
+    public Page<UserDto> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable).map(mapper::toUserDto);
     }
 
     public UserDto get(Long id) {
