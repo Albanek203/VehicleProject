@@ -11,15 +11,23 @@ export class UserHttpService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(): Observable<User[]> {
+  getAll(): Observable<User[]> {
     return this.http.get<User[]>(`${ this.URL }`);
   }
 
-  public get(id: number): Observable<User> {
+  get(id: number): Observable<User> {
     return this.http.get<User>(`${ this.URL }/${ id }`);
   }
 
-  public delete(id: number): Observable<User> {
+  create(user: User) {
+    return this.http.post<void>(this.URL, user);
+  }
+
+  update(user: User) {
+    return this.http.post<void>(`${ this.URL }/${ user.id }`, user);
+  }
+
+  delete(id: number): Observable<User> {
     return this.http.delete<User>(`${ this.URL }/${ id }`);
   }
 }
