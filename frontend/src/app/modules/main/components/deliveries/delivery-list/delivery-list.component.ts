@@ -50,9 +50,4 @@ export class DeliveryListComponent implements OnInit {
     let value = event.value;
     console.log(value);
   }
-
-  replaceFormatDate(date: string) {
-    let data = date.split('-');
-    return data[2] + '/' + data[1] + '/' + data[0];
-  }
 }

@@ -25,7 +25,7 @@
               {{delivery.country_to}} {{delivery.city_to}}
             </span>
             <i class="fa-solid fa-calendar-days product-category-icon"></i>
-            <span class="product-category">Departure date: {{replaceFormatDate(delivery.departureDate)}}</span>
+            <span class="product-category">Departure date: {{delivery.departureDate | date: 'MM/dd/yyyy'}}</span>
           </div>
           <div class="product-list-action">
             <span class="product-price">{{delivery.price}} {{delivery.unit}}</span>
