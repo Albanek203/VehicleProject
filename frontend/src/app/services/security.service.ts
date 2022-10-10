@@ -12,6 +12,7 @@ export class SecurityService {
   public isAuthenticated$ = this._isAuthenticated$.asObservable();
 
   constructor(private router: Router) {
+    this._isAuthenticated$.next(this.isAuthenticated());
   }
 
   login(user: SecurityUser) {
