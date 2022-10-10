@@ -8,6 +8,7 @@ import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import { AuthHttpService } from "@api/services/auth-http.service";
 import { finalize, first } from "rxjs";
+import { SecurityService } from "../../../../services/security.service";
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
     password: ''
   }
 
-  constructor(private authHttpService: AuthHttpService) {
+  constructor(private authHttpService: AuthHttpService,
+              private securityService: SecurityService) {
   }
 
   ngOnInit(): void {
@@ -30,13 +32,15 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true;
-    console.log(this.credential);
     this.authHttpService.login(this.credential)
       .pipe(first(), finalize(() => {
         this.loading = false;
       }))
       .subscribe({
-        next: user => console.log("Login in", user),
+        next: user => {
+          console.log("Login in", user)
+          this.securityService.login(user);
+        },
         error: error => console.log("error login in"),
       });
   }
