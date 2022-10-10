@@ -3,22 +3,10 @@
           class="p-button-text text-white shadow-none header-title-text"></button>
 </div>
 <div>
-  <button pButton pRipple type="button" label="Deliveries"
+  <button pButton pRipple type="button" label="Deliveries" routerLink="/deliveries"
           class="p-button-raised text-white focus:shadow-4"></button>
 </div>
 <div>
-  <div *ngIf="!isLoginIn">
-    <button pButton pRipple type="button" label="Sign in" routerLink="/login"
-            class="p-button-text p-button-raised bg-white focus:shadow-4 mr-2">
-      <i class="fa-solid fa-right-to-bracket mr-2"></i>
-    </button>
-
-    <button pButton pRipple type="button" label="Sign up" (click)="signUp()"
-            class="p-button-text p-button-raised bg-white focus:shadow-4">
-    </button>
-  </div>
-  <div *ngIf="isLoginIn">
-    <p-avatar icon="pi pi-user" shape="circle" class="cursor-pointer" (click)="userMenu.toggle($event)"></p-avatar>
-    <p-menu #userMenu [popup]="true" [model]="userMenuItems"></p-menu>
-  </div>
+  <p-avatar icon="pi pi-user" shape="circle" class="cursor-pointer" (click)="userMenu.toggle($event)"></p-avatar>
+  <p-menu #userMenu [popup]="true" [model]="userMenuItems"></p-menu>
 </div>
