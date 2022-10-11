@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Delivery } from "@api/models/Delivery";
-import { SelectItem } from "primeng/api";
+import { MessageService, SelectItem } from "primeng/api";
 import { DeliveryHttpService } from "@api/services/delivery-http.service";
-import { first } from "rxjs";
+import { finalize, first } from "rxjs";
 import { RestPage } from "@api/models/RestPage";
 import { DeliveryStatus } from "@api/models/enum/DeliveryStatus";
+import { Pagination } from "@api/models/Pagination";
+import { PrimeNgUtil } from "@api/utils/PrimeNgUtil";
 
 @Component({
   selector: 'app-delivery-list',
@@ -12,42 +14,47 @@ import { DeliveryStatus } from "@api/models/enum/DeliveryStatus";
   styleUrls: ['./delivery-list.component.scss']
 })
 export class DeliveryListComponent implements OnInit {
-
   readonly DeliveryStatus = DeliveryStatus;
   deliveries: RestPage<Delivery> = new RestPage<Delivery>();
-
+  loading: boolean = false;
   sortOptions: SelectItem[] = [
-    { label: 'Price High to Low', value: '!price' },
-    { label: 'Price Low to High', value: 'price' }
+    { label: 'Price High to Low', value: 'price,DESC' },
+    { label: 'Price Low to High', value: 'price,ASC' }
   ];
-
   sortKey: string = this.sortOptions[0].value;
-  sortField: string = 'id';
-  sortOrder: number = 1;
+  searchTerm: string = '';
+  pagination: Pagination = new Pagination();
 
-  constructor(private deliveryHttpService: DeliveryHttpService) {
-    this.getDeliveries();
+  constructor(private deliveryHttpService: DeliveryHttpService,
+              private messageService: MessageService) {
   }
 
   ngOnInit(): void {
   }
 
-  getDeliveries() {
-    this.deliveryHttpService.getAll()
-      .pipe(first())
+  onLazyLoad(event: any) {
+    this.pagination = Pagination.fromPrimeNgDataView(event, this.sortKey);
+    this.loadDeliveries({ searchTerm: this.searchTerm }, Pagination.fromPrimeNgDataView(event, this.sortKey));
+  }
+
+  loadDeliveries(filters: { [key: string]: string } = {}, pagination: Pagination = new Pagination()) {
+    this.loading = true;
+    this.deliveryHttpService.getAll(filters, pagination)
+      .pipe(first(), finalize(() => {
+        this.loading = false;
+      }))
       .subscribe({
-        next: deliveries => {
-          if(deliveries !== null) {
-            console.log(deliveries.content)
-            this.deliveries = deliveries;
-          }
-        },
-        error: error => console.log('getDeliveries', error)
+        next: deliveries => this.deliveries = deliveries,
+        error: error => this.messageService.add({ severity: 'error', summary: `Error ${ error.detail }`, detail: 'Load deliveries' })
       });
   }
 
   onSortChange(event: any) {
-    let value = event.value;
-    console.log(value);
+    this.pagination.sort = event.value;
+    this.loadDeliveries({ searchTerm: this.searchTerm }, this.pagination);
+  }
+
+  onSearchTermInput(event: any) {
+    this.loadDeliveries({ searchTerm: this.searchTerm }, this.pagination);
   }
 }
