@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { SecurityUser } from "@api/models/SecurityUser";
 import { Role } from "@api/models/enum/Role";
 import { BehaviorSubject } from "rxjs";
 import { Router } from "@angular/router";
+import { User } from "@api/models/User";
 
 @Injectable({ providedIn: "root" })
 export class SecurityService {
@@ -15,7 +15,7 @@ export class SecurityService {
     this._isAuthenticated$.next(this.isAuthenticated());
   }
 
-  login(user: SecurityUser) {
+  login(user: User) {
     this.updateUserInLocalStorage(user);
     this._isAuthenticated$.next(true);
     this.router.navigate([this.hasRole(Role.ADMIN) ? '/admin' : '/']);
@@ -31,9 +31,13 @@ export class SecurityService {
     return localStorage.getItem(this.USER_KEY) != null;
   }
 
-  getUser(): SecurityUser {
+  getUser(): User {
     const stringUser: string | null = localStorage.getItem(this.USER_KEY);
     return stringUser ? JSON.parse(stringUser) : null;
+  }
+
+  updateUser(user: User) {
+    this.updateUserInLocalStorage(user);
   }
 
   hasRole(role: Role) {
@@ -44,7 +48,7 @@ export class SecurityService {
     return roles.includes(this.getUser().role);
   }
 
-  private updateUserInLocalStorage(user: SecurityUser) {
+  private updateUserInLocalStorage(user: User) {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
   }
 }
