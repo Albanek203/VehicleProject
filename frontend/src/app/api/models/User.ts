@@ -6,5 +6,5 @@ export interface User {
   role: Role;
   name: string;
   surname: string;
-  active: boolean;
+  active: Boolean;
 }

@@ -1,5 +1,6 @@
 import { Cargo } from "@api/models/Cargo";
 import { Customer } from "@api/models/Customer";
+import { Offer } from "@api/models/Offer";
 
 export interface Delivery {
   id: number;
@@ -18,4 +19,5 @@ export interface Delivery {
   description: string;
   cargos: Cargo[];
   customer: Customer;
+  offers: Offer[];
 }
