@@ -1,0 +1,43 @@
+:host {
+
+  ::ng-deep th:nth-child(1) {
+    width: 120px;
+  }
+
+  .product-badge {
+    border-radius: 2px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+    text-align: center;
+
+    &.status {
+      &-new {
+        background: #C8E6C9;
+        color: #256029;
+      }
+
+      &-has_offer {
+        background: #D0DFC9;
+        color: #345229;
+      }
+
+      &-accepted_offer {
+        background: #D7D7C9;
+        color: #434529;
+      }
+
+      &-completed {
+        background: #DFD0C8;
+        color: #513729;
+      }
+
+      &-canceled {
+        background: #E6C8C8;
+        color: #602929;
+      }
+    }
+  }
+}
