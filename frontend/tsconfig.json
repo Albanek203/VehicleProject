@@ -9,7 +9,12 @@
       "@config/*": ["app/configuration/*"],
       "@components/*": ["app/components/*"],
       "@modules/*": ["app/modules/*"],
-      "@images/*": ["assets/images/*"]
+      "@images/*": ["assets/images/*"],
+      "@guards/*": ["app/guards/*"],
+      "@interceptors/*": ["app/interceptors/*"],
+      "@utils/*": ["app/utils/*"],
+      "@services/*": ["app/services/*"],
+      "@main-layout/*": ["app/modules/main/layout/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
