@@ -1,0 +1,28 @@
+:host {
+  ::ng-deep th:nth-child(1) {
+    width: 120px;
+  }
+
+  .status-info {
+    border-radius: 6px;
+    padding: 5px;
+
+    &-success {
+      background: #C8E6C9;
+      color: #256029;
+
+      i {
+        color: green;
+      }
+    }
+
+    &-error {
+      background: #E6C8C8;
+      color: #602929;
+
+      i {
+        color: red;
+      }
+    }
+  }
+}
