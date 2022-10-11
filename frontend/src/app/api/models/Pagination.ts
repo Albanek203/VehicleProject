@@ -16,4 +16,12 @@ export class Pagination {
     if(primeNgEvent.sortField) pagination.sort = `${ primeNgEvent.sortField },${ primeNgEvent.sortOrder > 0 ? 'ASC' : 'DESC' }`
     return pagination;
   }
+
+  static fromPrimeNgDataView(primeNgEvent: any, sort: string): Pagination {
+    let pagination = new Pagination();
+    pagination.page = primeNgEvent.first ? primeNgEvent.first / primeNgEvent.rows : 0;
+    pagination.size = primeNgEvent.rows;
+    pagination.sort = sort;
+    return pagination;
+  }
 }
