@@ -34,7 +34,7 @@
           </div>
           <div class="product-list-action">
             <span class="product-price">{{delivery.price}} {{delivery.unit}}</span>
-            <p-button label="Details" [disabled]="delivery.status === DeliveryStatus.CANCELED">
+            <p-button label="Details" [disabled]="delivery.status === DeliveryStatus.CANCELED" [routerLink]="'/deliveries/item/' + delivery.id">
               <i class="fa-regular fa-eye details-icon"></i>
             </p-button>
             <span [class]="'product-badge status-' + delivery.status.toLowerCase()">{{delivery.status.replace('_', ' ')}}</span>
