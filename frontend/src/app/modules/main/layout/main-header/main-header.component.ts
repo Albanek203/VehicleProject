@@ -1,29 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from "primeng/api";
+import { MenuItem, MessageService } from "primeng/api";
 import { first } from "rxjs";
 import { AuthHttpService } from "@api/services/auth-http.service";
-import { SecurityService } from "../../../../services/security.service";
+import { SecurityService } from "@services/security.service";
 import { Role } from "@api/models/enum/Role";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-main-header',
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss']
 })
 export class MainHeaderComponent implements OnInit {
-
   userName: string = this.securityService.getUser()?.email;
-
   userMenuItems: MenuItem[] = [];
 
   constructor(private authHttpService: AuthHttpService,
-              private securityService: SecurityService) {
+              private securityService: SecurityService,
+              private messageService: MessageService) {
     this.initUserMenuItem();
 
-    // TODO: unsubscribe an destroy
-    this.securityService.isAuthenticated$.subscribe(isAuthenticated => {
-      this.initUserMenuItem();
-    })
+    this.securityService.isAuthenticated$
+      .pipe(untilDestroyed(this))
+      .subscribe(isAuthenticated => {
+        this.initUserMenuItem(isAuthenticated);
+      });
   }
 
   ngOnInit(): void {
@@ -33,15 +35,12 @@ export class MainHeaderComponent implements OnInit {
     this.authHttpService.logout()
       .pipe(first())
       .subscribe({
-        next: user => {
-          console.log("log out");
-          this.securityService.logout();
-        },
-        error: error => console.log(error),
+        next: () => this.securityService.logout(),
+        error: error => this.messageService.add({ severity: 'error', summary: `Error ${ error.detail }`, detail: `Logout users` })
       });
   }
 
-  initUserMenuItem() {
+  initUserMenuItem(isAuthenticated: boolean = this.securityService.isAuthenticated()) {
     this.userMenuItems = [
       {
         label: 'Authorization',
@@ -57,11 +56,11 @@ export class MainHeaderComponent implements OnInit {
             routerLink: '/registration'
           }
         ],
-        visible: !this.securityService.isAuthenticated()
+        visible: !isAuthenticated
       },
       {
         label: `Signed in as\n${ this.userName }`,
-        visible: this.securityService.isAuthenticated()
+        visible: isAuthenticated
       },
       {
         separator: true,
@@ -80,20 +79,22 @@ export class MainHeaderComponent implements OnInit {
           {
             label: 'Your profile',
             icon: 'fa-solid fa-user',
-            command: () => {
-              console.log("Link your profile");
-            }
+            routerLink: '/profile'
           },
           {
             label: 'Your deliveries',
             icon: 'fa-solid fa-truck',
-            command: () => {
-              console.log("Link your deliveries");
-            },
+            routerLink: '/profile',
             visible: this.securityService.hasRole(Role.CUSTOMER)
+          },
+          {
+            label: 'Your offers',
+            icon: 'fa-solid fa-truck',
+            routerLink: '/profile',
+            visible: this.securityService.hasRole(Role.TRANSPORTER)
           }
         ],
-        visible: this.securityService.isAuthenticated()
+        visible: isAuthenticated
       },
       {
         separator: true,
@@ -104,7 +105,7 @@ export class MainHeaderComponent implements OnInit {
             command: () => this.logout()
           }
         ],
-        visible: this.securityService.isAuthenticated()
+        visible: isAuthenticated
       }
     ];
   }
