@@ -1,7 +1,7 @@
 <div class="header-separator"></div>
 
 <div class="card shadow-4">
-  <p-dataView #dataView [value]="deliveries.content" [loading]="loading"
+  <p-dataView [value]="deliveries.content" [loading]="loading"
               [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [totalRecords]="deliveries.totalElements"
               [paginator]="true" [rows]="deliveries.size" [showCurrentPageReport]="true" layout="list" sortField="price" [sortOrder]="-1"
               currentPageReportTemplate="{first} to {last} of {totalRecords} total">
@@ -12,7 +12,7 @@
         </p-dropdown>
         <span class="p-input-icon-left mb-2 md:mb-0">
           <i class="pi pi-search"></i>
-          <input type="search" pInputText placeholder="Search by Name"
+          <input type="search" pInputText placeholder="Search"
                  [(ngModel)]="searchTerm" (input)="onSearchTermInput($event)">
         </span>
       </div>
