@@ -6,7 +6,7 @@ import { finalize, first } from "rxjs";
 import { RestPage } from "@api/models/RestPage";
 import { DeliveryStatus } from "@api/models/enum/DeliveryStatus";
 import { Pagination } from "@api/models/Pagination";
-import { PrimeNgUtil } from "@api/utils/PrimeNgUtil";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-delivery-list',
@@ -26,7 +26,9 @@ export class DeliveryListComponent implements OnInit {
   pagination: Pagination = new Pagination();
 
   constructor(private deliveryHttpService: DeliveryHttpService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private activatedRoute: ActivatedRoute,) {
+
   }
 
   ngOnInit(): void {
