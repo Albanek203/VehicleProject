@@ -18,7 +18,9 @@ export class SecurityInterceptor implements HttpInterceptor {
           if(error.status === 401) {
             this.securityService.logout();
           } else if(error.status === 403) {
-            this.router.navigate(['/403'])
+            this.router.navigate(['error/403'])
+          } else if(error.status === 404) {
+            this.router.navigate(['error/404'])
           }
         }
       }
