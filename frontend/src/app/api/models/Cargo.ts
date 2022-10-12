@@ -1,3 +1,5 @@
+import { ShortDelivery } from "@api/models/ShortDelivery";
+
 export interface Cargo {
   id: number;
   count: number;
@@ -6,4 +8,5 @@ export interface Cargo {
   totalWeight: number;
   totalVolume: number;
   isFragile: boolean;
+  delivery: ShortDelivery;
 }
