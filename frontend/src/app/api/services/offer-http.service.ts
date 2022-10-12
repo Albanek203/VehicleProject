@@ -8,7 +8,7 @@ import { Offer } from "@api/models/Offer";
 
 @Injectable({ providedIn: 'root' })
 export class OfferHttpService {
-  private readonly URL = `${ API_URL }/transporter`;
+  private readonly URL = `${ API_URL }/offer`;
 
   constructor(private http: HttpClient) {
   }
@@ -22,8 +22,8 @@ export class OfferHttpService {
     return this.http.get<Offer>(`${ this.URL }/${ id }`);
   }
 
-  create(offer: Offer) {
-    return this.http.post<void>(this.URL, offer);
+  create(offer: Offer): Observable<Offer> {
+    return this.http.post<Offer>(this.URL, offer);
   }
 
   update(offer: Offer) {
