@@ -1,0 +1,270 @@
+:host {
+  .header-separator {
+    height: 80px;
+  }
+
+  ::ng-deep .my-card .p-card .p-card-body {
+    padding: 5px 20px;
+  }
+
+  .offer-status {
+    border-radius: 2px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: .4px;
+
+    &-no_checked {
+      background: #DFD0C8;
+      color: #513729;
+    }
+
+    &-accepted {
+      background: #D0DFC9;
+      color: #345229;
+    }
+
+    &-rejected {
+      background: #E6C8C8;
+      color: #602929;
+    }
+
+    &-done {
+      background: #C8E6C9;
+      color: #256029;
+    }
+  }
+
+  ::ng-deep {
+
+    .p-dropdown {
+      width: 14rem;
+      font-weight: normal;
+    }
+
+    .product-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .product-description {
+      margin: 0 0 1rem 0;
+      max-height: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-category-icon {
+      vertical-align: middle;
+      margin-right: .5rem;
+    }
+
+    .details-icon {
+      vertical-align: middle;
+      margin-right: .5rem;
+      margin-top: .15rem;
+    }
+
+    .product-category {
+      font-weight: 600;
+      vertical-align: middle;
+    }
+
+    .product-list-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      width: 100%;
+
+      img {
+        width: 150px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        margin-right: 2rem;
+      }
+
+      .product-list-detail {
+        flex: 1 1 0;
+      }
+
+      .product-way-info {
+        display: block;
+        margin: 0 0 .5rem 0;
+      }
+
+      .product-price {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: .5rem;
+        align-self: flex-end;
+      }
+
+      .product-list-action {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+      }
+
+      .p-button {
+        margin-bottom: .5rem;
+      }
+    }
+
+    .product-grid-item {
+      margin: .5em;
+      border: 1px solid #dee2e6;
+
+      .product-grid-item-top,
+      .product-grid-item-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      img {
+        width: 75%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        margin: 2rem 0;
+      }
+
+      .product-grid-item-content {
+        text-align: center;
+      }
+
+      .product-price {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .cargo-card-title {
+    padding: 20px;
+    background: #0077B6;
+    border-radius: 20px 20px 0 0;
+    margin-bottom: -20px;
+    font-size: 20px;
+    color: white;
+    font-weight: 800;
+    margin-top: 20px;
+  }
+
+  .cargo-card {
+    padding: 20px;
+    border-radius: 20px;
+    background: #0077B6;
+  }
+
+  .col-title-form {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 20px 0;
+  }
+
+  .product-badge {
+    border-radius: 2px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+    text-align: center;
+
+    &.status {
+      &-new {
+        background: #C8E6C9;
+        color: #256029;
+      }
+
+      &-has_offer {
+        background: #D0DFC9;
+        color: #345229;
+      }
+
+      &-accepted_offer {
+        background: #D7D7C9;
+        color: #434529;
+      }
+
+      &-completed {
+        background: #DFD0C8;
+        color: #513729;
+      }
+
+      &-canceled {
+        background: #E6C8C8;
+        color: #602929;
+      }
+    }
+  }
+
+  .text-header {
+    font-size: 25px;
+    font-weight: 800;
+    color: #03045E;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+
+  .card {
+    padding: 2rem 2rem;
+    border-radius: 10px;
+    margin: 2rem;
+
+    .user-information {
+      .header-text {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .body-text {
+        .user-image {
+          height: 150px;
+          width: 150px;
+          margin: 5px;
+        }
+
+        .status-info {
+          border-radius: 6px;
+          padding: 5px;
+
+          &-success {
+            background: #C8E6C9;
+            color: #256029;
+
+            i {
+              color: green;
+            }
+          }
+
+          &-error {
+            background: #E6C8C8;
+            color: #602929;
+
+            i {
+              color: red;
+            }
+          }
+        }
+      }
+    }
+
+    .grid-sep-info {
+
+      .col {
+        .left-row-item {
+          text-align: right;
+          margin-bottom: 10px;
+          vertical-align: center;
+        }
+
+        .right-row-item {
+          text-align: left;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
