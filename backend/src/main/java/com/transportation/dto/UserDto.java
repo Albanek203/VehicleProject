@@ -1,9 +1,7 @@
 package com.transportation.dto;
 
 import com.transportation.enums.Role;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class UserDto {
@@ -12,5 +10,5 @@ public class UserDto {
     private Role role;
     private String name;
     private String surname;
-    private boolean active;
+    private Boolean active;
 }

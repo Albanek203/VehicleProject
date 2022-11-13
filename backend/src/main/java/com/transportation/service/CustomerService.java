@@ -1,9 +1,7 @@
 package com.transportation.service;
 
 import com.transportation.dto.CustomerDto;
-import com.transportation.dto.IdWrapper;
 import com.transportation.entity.Customer;
-import com.transportation.entity.Delivery;
 import com.transportation.entity.User;
 import com.transportation.exception.EntityNotFoundException;
 import com.transportation.exception.ReferenceNotFoundException;
@@ -12,10 +10,10 @@ import com.transportation.repository.CustomerRepository;
 import com.transportation.repository.DeliveryRepository;
 import com.transportation.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -26,7 +24,9 @@ public class CustomerService {
     private final UserRepository userRepository;
     private final Mapper mapper;
 
-    public List<CustomerDto> getAll() { return customerRepository.findAll().stream().map(mapper::toCustomerDto).toList(); }
+    public Page<CustomerDto> getAll(Long id, String name, String phone, Long userId, Pageable pageable) {
+        return customerRepository.findAllBy(id, name, phone, userId, pageable).map(mapper::toCustomerDto);
+    }
 
     public CustomerDto get(Long id) {
         return mapper.toCustomerDto(retrieve(id));
@@ -34,26 +34,16 @@ public class CustomerService {
 
     public CustomerDto create(CustomerDto dto, String userEmail) {
         Customer customer = new Customer();
-        List<Delivery> deliveries = dto.getDeliveries().stream()
-                .map(IdWrapper::getId)
-                .map(deliveryId -> deliveryRepository.findById(deliveryId).orElseThrow(() -> new ReferenceNotFoundException("Delivery", deliveryId)))
-                .toList();
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new ReferenceNotFoundException("User", userEmail));
         mapper.mergeCustomer(dto, customer);
-        customer.setDeliveries(new ArrayList<>(deliveries));
         customer.setUser(user);
         return mapper.toCustomerDto(customerRepository.save(customer));
     }
 
     public CustomerDto update(Long id, CustomerDto dto, String userEmail) {
         Customer customer = retrieve(id);
-        List<Delivery> deliveries = dto.getDeliveries().stream()
-                .map(IdWrapper::getId)
-                .map(deliveryId -> deliveryRepository.findById(deliveryId).orElseThrow(() -> new ReferenceNotFoundException("Delivery", deliveryId)))
-                .toList();
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new ReferenceNotFoundException("User", userEmail));
         mapper.mergeCustomer(dto, customer);
-        customer.setDeliveries(new ArrayList<>(deliveries));
         customer.setUser(user);
         return mapper.toCustomerDto(customerRepository.save(customer));
     }

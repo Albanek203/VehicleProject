@@ -3,11 +3,13 @@ package com.transportation.controller;
 import com.transportation.dto.CustomerDto;
 import com.transportation.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,8 +18,13 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping()
-    public List<CustomerDto> getAll() {
-        return customerService.getAll();
+    public Page<CustomerDto> getAll(
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) Long userId,
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        return customerService.getAll(id, name, phone, userId, pageable);
     }
 
     @GetMapping("/{id}")

@@ -36,6 +36,8 @@ public class SecurityConfiguration {
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/logout").permitAll()
                 .antMatchers("/api/auth/signup").permitAll()
+                .antMatchers("/api/auth/exists-email").permitAll()
+                .antMatchers("/api/auth/active-user/?").permitAll()
                 .antMatchers("/api/delivery").permitAll()
                 // TODO: Uncomment when security will be implemented
                 .antMatchers("/api/**").authenticated());

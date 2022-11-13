@@ -1,9 +1,7 @@
 package com.transportation.dto;
 
 import com.transportation.enums.Role;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 @Data

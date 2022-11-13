@@ -10,16 +10,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final Mapper mapper;
 
-    public Page<UserDto> getAll(Pageable pageable) {
-        return userRepository.findAll(pageable).map(mapper::toUserDto);
+    public Page<UserDto> getAll(Long id, String name, String surname, String email, Pageable pageable) {
+        return userRepository.findAllBy(id, name, surname, email, pageable).map(mapper::toUserDto);
     }
 
     public UserDto get(Long id) {

@@ -4,10 +4,9 @@ import com.transportation.enums.DeliveryStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
-public class DeliveryDto {
+public class DeliveryShortDto {
     private Long id;
     private int price;
     private String unit;
@@ -22,7 +21,5 @@ public class DeliveryDto {
     private LocalDate arrivalDate = LocalDate.now();
     private DeliveryStatus status;
     private String description;
-    private List<CargoDto> cargos;
     private CustomerShortDto customer;
-    private List<OfferDto> offers;
 }

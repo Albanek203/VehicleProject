@@ -59,6 +59,12 @@ public class Delivery {
     @ToString.Exclude
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "delivery", fetch = FetchType.LAZY)
     private List<Cargo> cargos;
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @OneToMany(mappedBy = "delivery", fetch = FetchType.LAZY)
+    private List<Offer> offers;
 }

@@ -8,7 +8,8 @@ public class CargoDto {
     private int count;
     private String name;
     private String unit;
-    private int totalWeight;
-    private int totalVolume;
+    private float totalWeight;
+    private float totalVolume;
     private boolean isFragile;
+    private DeliveryShortDto delivery;
 }

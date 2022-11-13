@@ -10,8 +10,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/users")
@@ -20,11 +18,16 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
     @GetMapping()
-    public Page<UserDto> getAll(@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        return userService.getAll(pageable);
+    public Page<UserDto> getAll(
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String surname,
+            @RequestParam(required = false) String email,
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        return userService.getAll(id, name, surname, email, pageable);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUP PORT')")
+    @PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
     @GetMapping("/{id}")
     public UserDto get(@PathVariable Long id) { return userService.get(id); }
 
@@ -32,7 +35,7 @@ public class UserController {
     @PostMapping
     public UserDto create(@RequestBody UserDto model) { return userService.create(model); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPPORT')")
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{id}")
     public UserDto update(@PathVariable Long id, @RequestBody UserDto model) {
         return userService.update(id, model);

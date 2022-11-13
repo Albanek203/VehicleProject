@@ -10,6 +10,8 @@ import com.transportation.mapper.Mapper;
 import com.transportation.repository.OfferRepository;
 import com.transportation.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,9 +24,13 @@ public class OfferService {
     private final UserRepository userRepository;
     private final Mapper mapper;
 
-    public List<OfferDto> getAll() { return offerRepository.findAll().stream().map(mapper::toOfferDto).toList(); }
+    public Page<OfferDto> getAll(Long id, String description, String status, Long deliveryId, Long transporterId, String searchTerm, Pageable pageable) {
+        return offerRepository.findAllBy(id, description, status, deliveryId, transporterId, searchTerm, pageable).map(mapper::toOfferDto);
+    }
 
-    public OfferDto get(Long id) { return mapper.toOfferDto(retrieve(id)); }
+    public OfferDto get(Long id) {
+        return mapper.toOfferDto(retrieve(id));
+    }
 
     public OfferDto create(OfferDto dto, String userEmail) {
         Offer offer = new Offer();
@@ -44,7 +50,9 @@ public class OfferService {
         return mapper.toOfferDto(offerRepository.save(offer));
     }
 
-    public void delete(Long id) { offerRepository.deleteById(id); }
+    public void delete(Long id) {
+        offerRepository.deleteById(id);
+    }
 
     private Offer retrieve(Long id) {
         return offerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Offer", id));

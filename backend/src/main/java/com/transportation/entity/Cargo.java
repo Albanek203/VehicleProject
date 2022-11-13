@@ -1,8 +1,12 @@
 package com.transportation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -21,7 +25,13 @@ public class Cargo {
     @Column(nullable = false)
     private String unit;
     @Column(nullable = false)
-    private int totalWeight;
-    private int totalVolume;
+    private float totalWeight;
+    private float totalVolume;
     private boolean isFragile;
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Delivery delivery;
 }
