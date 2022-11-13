@@ -35,6 +35,14 @@ public interface Mapper {
     @Mapping(target = "city_to", source = "addressTo.city")
     @Mapping(target = "street_to", source = "addressTo.street")
     DeliveryDto toDeliveryDto(Delivery entity);
+    @Mapping(target = "status", defaultExpression = "java(com.transportation.enums.DeliveryStatus.NEW)")
+    @Mapping(target = "country_from", source = "addressFrom.country")
+    @Mapping(target = "city_from", source = "addressFrom.city")
+    @Mapping(target = "street_from", source = "addressFrom.street")
+    @Mapping(target = "country_to", source = "addressTo.country")
+    @Mapping(target = "city_to", source = "addressTo.city")
+    @Mapping(target = "street_to", source = "addressTo.street")
+    DeliveryShortDto toDeliveryShortDto(Delivery entity);
     @Mapping(target = "customer", ignore = true)
     @Mapping(target = "cargos", ignore = true)
     @Mapping(target = "addressFrom.country", source = "country_from")
@@ -57,6 +65,7 @@ public interface Mapper {
 
 
     // Offer
+    @Mapping(target = "status", defaultExpression = "java(com.transportation.enums.OfferStatus.NO_CHECKED)")
     OfferDto toOfferDto(Offer entity);
     @Mapping(target = "transporter", ignore = true)
     Offer toOffer(OfferDto dto);

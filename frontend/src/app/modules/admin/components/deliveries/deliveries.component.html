@@ -1,0 +1,67 @@
+<p-table [value]="deliveries.content" responsiveLayout="scroll" [loading]="loading"
+         [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [totalRecords]="deliveries.totalElements"
+         [paginator]="true" [rows]="deliveries.size" [showCurrentPageReport]="true" sortField="id"
+         currentPageReportTemplate="{first} to {last} of {totalRecords} total">
+  <ng-template pTemplate="caption">
+    <div class="table-header">
+      <h2>List of Deliveries</h2>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="id">Id
+        <p-sortIcon field="id"></p-sortIcon>
+      </th>
+      <th>Address From</th>
+      <th>Address To</th>
+      <th pSortableColumn="createdDate">Created Date
+        <p-sortIcon field="createdDate"></p-sortIcon>
+      </th>
+      <th pSortableColumn="departureDate">Departure Date
+        <p-sortIcon field="departureDate"></p-sortIcon>
+      </th>
+      <th pSortableColumn="arrivalDate">Arrival Date
+        <p-sortIcon field="arrivalDate"></p-sortIcon>
+      </th>
+      <th class="text-center" pSortableColumn="status">Status
+        <p-sortIcon field="status"></p-sortIcon>
+      </th>
+      <th class="text-center">List Offer</th>
+    </tr>
+    <tr>
+      <th>
+        <p-columnFilter type="text" field="id" [showMenu]="false" matchMode="equals" placeholder="Id"></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter type="text" field="addressFrom" [showMenu]="false" matchMode="equals" placeholder="Search by address"></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter type="text" field="addressTo" [showMenu]="false" matchMode="equals" placeholder="Search by address"></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter type="text" field="createdDate" [showMenu]="false" matchMode="equals" placeholder="Search by date"></p-columnFilter>
+      </th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-delivery>
+    <tr>
+      <td>{{delivery.id}}</td>
+      <td>{{delivery.country_from}} {{delivery.city_from}} {{delivery.street_from}}</td>
+      <td>{{delivery.country_to}} {{delivery.city_to}} {{delivery.street_to}}</td>
+      <td>{{delivery.createdDate | date: 'MM/dd/yyyy'}}</td>
+      <td>{{delivery.departureDate | date: 'MM/dd/yyyy'}}</td>
+      <td>{{delivery.arrivalDate | date: 'MM/dd/yyyy'}}</td>
+      <td class="text-center">
+        <span [class]="'product-badge status-' + delivery.status.toLowerCase()">{{delivery.status.replace('_', ' ')}}</span>
+      </td>
+      <td class="text-center">
+        <button pButton pRipple type="button" label="Offers" routerLink="/admin/offers"
+                class="p-button-raised text-white focus:shadow-4"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

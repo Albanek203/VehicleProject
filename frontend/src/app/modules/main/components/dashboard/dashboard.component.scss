@@ -1,0 +1,70 @@
+:host {
+
+  .header-section {
+    padding-top: 80px;
+    height: 990px;
+    background: no-repeat center center;
+    background-size: cover;
+    overflow: hidden;
+
+    .transparent-all {
+      position: relative;
+      background-color: rgba(0, 0, 0, 0.83);
+      height: 100%;
+      width: 100%;
+
+      .over-image {
+        background: no-repeat center center;
+        background-size: contain;
+        z-index: 99;
+      }
+
+      .header-truck-img {
+        position: absolute;
+        top: 10%;
+        left: 55%;
+        height: 900px;
+        width: 900px;
+      }
+
+      .header-information {
+        max-width: 550px;
+        padding-top: 300px;
+        margin-left: 250px;
+
+
+      }
+
+      .header-information div:nth-child(1) {
+        text-transform: uppercase;
+        color: #fa4216;
+        font-size: 21px;
+        margin-bottom: 20px;
+      }
+
+      .header-information div:nth-child(2) {
+        color: white;
+        font-size: 60px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .header-information div:nth-child(3) {
+        color: white;
+        font-size: 21px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .test {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    fill: #F4F6FC;
+  }
+
+  .services-section {
+    height: 750px;
+  }
+}

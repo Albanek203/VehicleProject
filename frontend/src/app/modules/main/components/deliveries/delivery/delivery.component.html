@@ -1,0 +1,145 @@
+<div class="header-separator"></div>
+<div class="card shadow-4">
+  <div class="body-text flex">
+    <div class="user-image">
+      <p-image src="https://placehold.co/150x150?text=ProfilePhoto" alt="Image" [preview]="true"></p-image>
+    </div>
+    <p-divider layout="vertical"></p-divider>
+    <div class="w-full">
+      <div class="text-right">
+        <span [class]="'delivery-badge status-' + delivery.status.toLowerCase()">{{delivery.status.replace('_', ' ')}}</span>
+      </div>
+      <div class="block-info">
+        <div class="text-header flex">
+          {{delivery.customer.name}}
+          <p-divider layout="vertical"></p-divider>
+          <span class="delivery-price">{{delivery.price}} {{delivery.unit}}</span>
+        </div>
+        <div class="mt-3">
+          <div class="delivery-way-info">
+            {{delivery.country_from}} {{delivery.city_from}}
+            <i class="fa-solid fa-truck-fast mx-2"></i>
+            {{delivery.country_to}} {{delivery.city_to}}
+          </div>
+          <div class="mt-2">
+            <i class="fa-solid fa-calendar-days delivery-category-icon"></i>
+            <span class="delivery-category">Departure date: {{delivery.departureDate | date: 'MM/dd/yyyy'}}</span>
+          </div>
+          <div class="mt-2">
+            <i class="fa-solid fa-calendar-days delivery-category-icon"></i>
+            <span class="delivery-category">Arrival date: {{delivery.arrivalDate | date: 'MM/dd/yyyy'}}</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <i class="fa-solid fa-eye delivery-category-icon"></i>
+          Less than {{ offersLessThan(delivery.offers.length) }} views, hurry up to respond !
+        </div>
+        <div class="mt-3">
+          <p-panel header="Description" [toggleable]="true">
+            <p>{{delivery.description}}</p>
+          </p-panel>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-divider></p-divider>
+  <div class="flex flex-column align-items-center">
+    <div class="text-header">Cargos</div>
+    <div class="flex flex-wrap mt-5">
+      <ng-template ngFor let-item [ngForOf]="delivery.cargos">
+        <p-card class="my-card mx-2">
+          <div *ngIf="item.isFragile">
+            <div class="text-red-700">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              Fragile
+            </div>
+          </div>
+          <div>{{item.name}}</div>
+          <div class="mt-2">{{item.count}} {{item.unit}}</div>
+          <div class="mt-2">Total weight: {{item.totalWeight}} kg</div>
+          <div class="mt-2">Total volume: {{item.totalVolume}} m<sup>2</sup></div>
+        </p-card>
+      </ng-template>
+    </div>
+  </div>
+  <div class="actions-card" *ngIf="isTransporter || isCurrentCustomer">
+    <p-divider></p-divider>
+    <div class="text-center" *ngIf="isCurrentCustomer">
+      <button pButton pRipple type="button" label="Completed" *ngIf="delivery.status == DeliveryStatus.ACCEPTED_OFFER"
+              (click)="completeDelivery()"
+              class="p-button-raised p-button-success text-white focus:shadow-4 mx-1 mt-1"></button>
+      <button pButton pRipple type="button" label="Cancel offer" *ngIf="delivery.status == DeliveryStatus.ACCEPTED_OFFER"
+              (click)="cancelOffer()"
+              class="p-button-raised p-button-danger text-white focus:shadow-4 mx-1 mt-1"></button>
+      <button pButton pRipple type="button" label="Cancel delivery" *ngIf="delivery.status != DeliveryStatus.CANCELED"
+              (click)="cancelDelivery()"
+              class="p-button-raised p-button-danger text-white focus:shadow-4 mx-1 mt-1"></button>
+      <button pButton pRipple type="button" label="Turn on" *ngIf="delivery.status == DeliveryStatus.CANCELED"
+              (click)="turnOnDelivery()"
+              class="p-button-raised p-button-success text-white focus:shadow-4 mx-1 mt-1"></button>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-4" *ngIf="isCurrentCustomer">
+  <div class="text-header">Offers</div>
+  <p-divider></p-divider>
+  <div class="flex flex-column">
+    <div class="text-center font-bold" *ngIf="delivery.offers.length == 0">No offers</div>
+    <ng-template ngFor let-item [ngForOf]="delivery.offers" let-i="index">
+      <p-card class="my-card mb-3">
+        <div class="flex w-full justify-content-between">
+          <div>
+            <span class="offer-status offer-status-{{item.status.toLowerCase()}}">{{item.status.replace('_', ' ')}}</span>
+            <h3 class="mt-2">{{item.transporter.name}}</h3>
+            <div class="mt-3">{{item.description}}</div>
+          </div>
+          <div class="flex">
+            <p-divider layout="vertical" class="test"></p-divider>
+            <div class="flex flex-column">
+              <button pButton pRipple type="button" label="Accept" (click)="acceptOffer(item)"
+                      class="p-button-raised p-button-success text-white focus:shadow-4 mb-2"></button>
+              <button pButton pRipple type="button" label="Reject" (click)="rejectOffer(item)"
+                      class="p-button-raised p-button-danger text-white focus:shadow-4"></button>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </ng-template>
+  </div>
+</div>
+
+<div class="card shadow-4" *ngIf="isTransporter && (delivery.status == DeliveryStatus.HAS_OFFER || delivery.status == DeliveryStatus.NEW)">
+  <div class="text-header">Your offers</div>
+  <p-divider></p-divider>
+  <div class="flex flex-column">
+    <p-card class="my-card mb-3">
+      <h3 class="text-green-500">Create offer</h3>
+      <textarea [rows]="5" pInputTextarea placeholder="Description" [(ngModel)]="offerCredential.description"
+                class="textarea-vertical-resize w-full mt-3"></textarea>
+      <div class="mt-2 flex justify-content-end">
+        <button pButton pRipple type="button" label="Add" (click)="checkValidOfferCredential($event)"
+                class="p-button-raised p-button-success text-white focus:shadow-4"></button>
+        <p-confirmPopup></p-confirmPopup>
+      </div>
+    </p-card>
+    <ng-template ngFor let-item [(ngModel)]="currentTransporterOffers" [ngForOf]="currentTransporterOffers" let-i="index">
+      <p-card class="my-card mb-3">
+        <div class="flex w-full justify-content-between">
+          <div>
+            <span class="offer-status offer-status-{{item.status.toLowerCase()}}">{{item.status.replace('_', ' ')}}</span>
+            <h3 class="mt-2">{{item.transporter.name}}</h3>
+            <div class="mt-3">{{item.description}}</div>
+          </div>
+          <div class="flex">
+            <p-divider layout="vertical" class="test"></p-divider>
+            <div class="flex flex-column">
+              <button pButton pRipple type="button" label="Remove" (click)="removeOffer(item.id)"
+                      class="p-button-raised p-button-danger text-white focus:shadow-4 mt-2"></button>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </ng-template>
+  </div>
+</div>

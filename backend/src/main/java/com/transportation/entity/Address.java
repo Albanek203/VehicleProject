@@ -1,10 +1,12 @@
 package com.transportation.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 
-@Data
+@Getter
+@Setter
 @Embeddable
 public class Address {
     private String country;

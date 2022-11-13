@@ -1,0 +1,10 @@
+<div>
+  <button pButton pRipple type="button" label="Users" routerLink="/admin/users"
+          class="p-button-raised text-white focus:shadow-4"></button>
+  <button pButton pRipple type="button" label="Deliveries" routerLink="/admin/deliveries"
+          class="p-button-raised text-white focus:shadow-4 mx-3"></button>
+</div>
+<div>
+  <p-avatar icon="pi pi-user" shape="circle" class="cursor-pointer" (click)="userMenu.toggle($event)"></p-avatar>
+  <p-menu #userMenu [popup]="true" [model]="userMenuItems"></p-menu>
+</div>

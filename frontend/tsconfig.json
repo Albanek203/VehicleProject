@@ -5,8 +5,16 @@
     "baseUrl": "./src",
     "paths": {
       "@env/*": ["environments/*"],
+      "@api/*": ["app/api/*"],
       "@config/*": ["app/configuration/*"],
-      "@api/*": ["app/api/*"]
+      "@components/*": ["app/components/*"],
+      "@modules/*": ["app/modules/*"],
+      "@images/*": ["assets/images/*"],
+      "@guards/*": ["app/guards/*"],
+      "@interceptors/*": ["app/interceptors/*"],
+      "@utils/*": ["app/utils/*"],
+      "@services/*": ["app/services/*"],
+      "@main-layout/*": ["app/modules/main/layout/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

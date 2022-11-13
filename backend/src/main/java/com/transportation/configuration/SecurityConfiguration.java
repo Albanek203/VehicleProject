@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -27,6 +28,7 @@ public class SecurityConfiguration {
     private final AuthenticationSuccessHandler authenticationSuccess;
     private final AuthenticationFailureHandler authenticationFailure;
     private final LogoutSuccessHandler logoutSuccess;
+    private final AuthenticationEntryPoint authenticationFailEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,11 +36,21 @@ public class SecurityConfiguration {
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/logout").permitAll()
                 .antMatchers("/api/auth/signup").permitAll()
-                .anyRequest().authenticated());
+                .antMatchers("/api/auth/exists-email").permitAll()
+                .antMatchers("/api/auth/active-user/?").permitAll()
+                .antMatchers("/api/delivery").permitAll()
+                // TODO: Uncomment when security will be implemented
+                .antMatchers("/api/**").authenticated());
+
         http.csrf().disable()
                 .cors()
                 .and()
-                .logout().logoutUrl("/api/auth/logout").logoutSuccessHandler(logoutSuccess);
+                .exceptionHandling()
+             /*   .authenticationEntryPoint(authenticationFailEntryPoint)*/
+                .and()
+                .logout().logoutUrl("/api/auth/logout").logoutSuccessHandler(logoutSuccess)
+                .and()
+                .sessionManagement().maximumSessions(1);
         return http.build();
     }
 
@@ -73,9 +85,5 @@ public class SecurityConfiguration {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().antMatchers("/swagger", "/swagger-ui/**", "/v3/**");
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new BCryptPasswordEncoder().encode("password"));
     }
 }

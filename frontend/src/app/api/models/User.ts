@@ -1,8 +1,10 @@
+import { Role } from "@api/models/enum/Role";
+
 export interface User {
   id: number;
   email: string;
-  role: string;
+  role: Role;
   name: string;
   surname: string;
-  active: boolean;
+  active: Boolean;
 }

@@ -3,9 +3,11 @@ package com.transportation.controller;
 import com.transportation.dto.TransporterDto;
 import com.transportation.service.TransporterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,8 +16,13 @@ public class TransporterController {
     private final TransporterService transporterService;
 
     @GetMapping()
-    public List<TransporterDto> getAll() {
-        return transporterService.getAll();
+    public Page<TransporterDto> getAll(
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) Long userId,
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        return transporterService.getAll(id, name, phone, userId, pageable);
     }
 
     @GetMapping("/{id}")

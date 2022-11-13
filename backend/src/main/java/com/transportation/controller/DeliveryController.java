@@ -3,11 +3,11 @@ package com.transportation.controller;
 import com.transportation.dto.DeliveryDto;
 import com.transportation.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,8 +16,16 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     @GetMapping()
-    public List<DeliveryDto> getAll() {
-        return deliveryService.getAll();
+    public Page<DeliveryDto> getAll(
+            @RequestParam(required = false) String searchTerm,
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) String addressFrom,
+            @RequestParam(required = false) String addressTo,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) Long customerId,
+            @RequestParam(required = false) Long price,
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        return deliveryService.getAll(id, addressFrom, addressTo, description, customerId, price, searchTerm, pageable);
     }
 
     @GetMapping("/{id}")
@@ -25,33 +33,18 @@ public class DeliveryController {
         return deliveryService.get(id);
     }
 
-    //@PreAuthorize("hasAnyRole('CUSTOMER','ADMIN')")
+
     @PostMapping
     public DeliveryDto create(@RequestBody DeliveryDto model) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userEmail;
-        if (principal instanceof UserDetails) {
-            userEmail = ((UserDetails) principal).getUsername();
-        } else {
-            userEmail = principal.toString();
-        }
-        return deliveryService.create(model, userEmail);
+        return deliveryService.create(model);
     }
 
-    //@PreAuthorize("hasAnyRole('CUSTOMER','ADMIN')")
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public DeliveryDto update(@PathVariable Long id, @RequestBody DeliveryDto model) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userEmail;
-        if (principal instanceof UserDetails) {
-            userEmail = ((UserDetails) principal).getUsername();
-        } else {
-            userEmail = principal.toString();
-        }
-        return deliveryService.update(id, model, userEmail);
+        return deliveryService.update(id, model);
     }
 
-    //@PreAuthorize("hasAnyRole('CUSTOMER','ADMIN')")
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         deliveryService.delete(id);

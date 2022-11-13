@@ -1,0 +1,65 @@
+<p-table [value]="users.content" responsiveLayout="scroll" [loading]="loading"
+         [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [totalRecords]="users.totalElements"
+         [paginator]="true" [rows]="users.size" [showCurrentPageReport]="true"
+         currentPageReportTemplate="{first} to {last} of {totalRecords} total">
+  <ng-template pTemplate="caption">
+    <div class="table-header">
+      <h2>List of Users</h2>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="id">Id
+        <p-sortIcon field="id"></p-sortIcon>
+      </th>
+      <th pSortableColumn="name">Name
+        <p-sortIcon field="name"></p-sortIcon>
+      </th>
+      <th pSortableColumn="surname">Surname
+        <p-sortIcon field="surname"></p-sortIcon>
+      </th>
+      <th pSortableColumn="email">E-mail
+        <p-sortIcon field="email"></p-sortIcon>
+      </th>
+      <th pSortableColumn="role">Role
+        <p-sortIcon field="role"></p-sortIcon>
+      </th>
+      <th pSortableColumn="active">Activated
+        <p-sortIcon field="active"></p-sortIcon>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <p-columnFilter type="text" field="id" [showMenu]="false" matchMode="equals" placeholder="Id"></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter type="text" field="name" [showMenu]="false" matchMode="equals" placeholder="Search by name"></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter type="text" field="surname" [showMenu]="false" matchMode="equals" placeholder="Search by surname"></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter type="text" field="email" [showMenu]="false" matchMode="equals" placeholder="Search by email"></p-columnFilter>
+      </th>
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.surname}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.role}}</td>
+      <td>
+         <span class="status-info status-info-success" *ngIf="user.active">
+            Active <i class="fa-solid fa-shield"></i>
+          </span>
+        <span class="status-info status-info-error" *ngIf="!user.active">
+            No active <i class="fa-solid fa-shield"></i>
+          </span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

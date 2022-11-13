@@ -1,0 +1,7 @@
+export enum DeliveryStatus {
+  NEW = 'NEW',
+  HAS_OFFER = 'HAS_OFFER',
+  ACCEPTED_OFFER = 'ACCEPTED_OFFER',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED'
+}

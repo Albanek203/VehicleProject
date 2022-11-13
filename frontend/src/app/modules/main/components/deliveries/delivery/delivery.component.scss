@@ -1,0 +1,124 @@
+:host {
+  .header-separator {
+    height: 80px;
+  }
+
+  button {
+    min-width: 100px;
+  }
+
+  .test {
+    margin-right: 0px;
+  }
+
+  .textarea-vertical-resize {
+    resize: vertical;
+  }
+
+  .card {
+    padding: 2rem 2rem;
+    border-radius: 10px;
+    margin: 2rem;
+
+    .block-info {
+      .delivery-category-icon {
+        vertical-align: middle;
+        margin-right: .5rem;
+      }
+
+      .delivery-category {
+        vertical-align: middle;
+      }
+
+      .delivery-way-info {
+        font-size: 18px;
+        margin: 30px 0;
+      }
+    }
+
+    .text-header {
+      font-size: 25px;
+      font-weight: 800;
+      color: #03045E;
+      display: flex;
+      align-items: center;
+
+      .delivery-price {
+        padding: 10px;
+        border-radius: 10px;
+        background: #ADE8F4;
+      }
+    }
+
+    ::ng-deep .my-card .p-card .p-card-body {
+      padding: 5px 20px;
+    }
+  }
+
+  .offer-status {
+    border-radius: 2px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: .4px;
+
+    &-no_checked {
+      background: #DFD0C8;
+      color: #513729;
+    }
+
+    &-accepted {
+      background: #D0DFC9;
+      color: #345229;
+    }
+
+    &-rejected {
+      background: #E6C8C8;
+      color: #602929;
+    }
+
+    &-done {
+      background: #C8E6C9;
+      color: #256029;
+    }
+  }
+
+
+  .delivery-badge {
+    border-radius: 2px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: .4px;
+    text-align: center;
+
+    &.status {
+      &-new {
+        background: #C8E6C9;
+        color: #256029;
+      }
+
+      &-has_offer {
+        background: #D0DFC9;
+        color: #345229;
+      }
+
+      &-accepted_offer {
+        background: #D7D7C9;
+        color: #434529;
+      }
+
+      &-completed {
+        background: #DFD0C8;
+        color: #513729;
+      }
+
+      &-canceled {
+        background: #E6C8C8;
+        color: #602929;
+      }
+    }
+  }
+}

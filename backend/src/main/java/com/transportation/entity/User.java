@@ -1,18 +1,19 @@
 package com.transportation.entity;
 
 import com.transportation.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "users")
 public class User {
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,10 +22,12 @@ public class User {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String surname;
     @Column(nullable = false)
     private String password;
     @Column(columnDefinition = "boolean default true")
-    private boolean active = true;
+    private Boolean active = true;
 }

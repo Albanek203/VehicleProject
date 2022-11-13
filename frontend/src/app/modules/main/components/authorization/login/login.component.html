@@ -1,0 +1,29 @@
+<form #loginForm="ngForm" (ngSubmit)="loginForm.valid && login()"
+      class="shadow-3">
+  <h2 class="form-title">Login</h2>
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="fa-solid fa-envelope"></i></span>
+        <input type="email" pInputText
+               placeholder="E-mail"
+               name="email" [(ngModel)]="credential.email"
+               email required>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="fa-solid fa-lock"></i></span>
+        <input type="password" pInputText
+               placeholder="Password"
+               name="password" [(ngModel)]="credential.password"
+               required>
+      </div>
+    </div>
+
+    <button pButton pRipple type="submit" label="Sign In"
+            [loading]="loading"
+            class="p-button-text focus:shadow-4 mx-auto w-max"></button>
+  </div>
+</form>

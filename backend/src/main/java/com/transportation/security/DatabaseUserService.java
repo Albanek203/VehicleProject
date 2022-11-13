@@ -1,5 +1,7 @@
 package com.transportation.security;
 
+import com.transportation.entity.User;
+import com.transportation.exception.AccountIsNotActivatedException;
 import com.transportation.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,14 @@ public class DatabaseUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException(username));
+        //return userRepository.findByEmail(username).map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException(username));
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+
+        if (!user.getActive()) throw new AccountIsNotActivatedException();
+
+        return org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
+                .password(user.getPassword())
+                .roles(user.getRole().toString())
+                .build();
     }
 }

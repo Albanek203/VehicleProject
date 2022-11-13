@@ -1,0 +1,396 @@
+<div class="header-separator"></div>
+<div class="card shadow-4">
+
+
+  <div class="user-information">
+    <div class="text-header">About you</div>
+    <div class="body-text flex">
+      <div class="flex flex-column">
+        <div class="user-image">
+          <p-image src="https://placehold.co/150x150?text=ProfilePhoto" alt="Image" [preview]="true"></p-image>
+        </div>
+        <button pButton pRipple type="button" label="Change" class="p-button-raised text-white focus:shadow-4"></button>
+      </div>
+      <p-divider layout="vertical"></p-divider>
+      <div class="w-full">
+        <div class="text-right">
+          <span class="status-info status-info-success" *ngIf="user.active">
+            Active <i class="fa-solid fa-shield"></i>
+          </span>
+          <span class="status-info status-info-error" *ngIf="!user.active">
+            No active <i class="fa-solid fa-shield"></i>
+          </span>
+        </div>
+        <div class="flex justify-content-center">
+          <div *ngIf="editMode.userEdit" class="w-full">
+            <form #editUserForm="ngForm" (ngSubmit)="editUserForm.valid && updateUser()"
+                  class="text-center">
+              <div class="col-12 md:col-5">
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                  <input type="text" pInputText placeholder="Name" name="name" [(ngModel)]="user.name">
+                </div>
+              </div>
+              <div class="col-12 md:col-5">
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                  <input type="text" pInputText placeholder="Surname" name="surname" [(ngModel)]="user.surname">
+                </div>
+              </div>
+              <div class="col-12 md:col-5">
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon"><i class="fa-solid fa-envelope"></i></span>
+                  <input type="text" pInputText placeholder="Email" name="email" [(ngModel)]="user.email">
+                </div>
+              </div>
+              <button pButton pRipple type="submit" label="Save" [loading]="loading"
+                      class="p-button-text p-button-success focus:shadow-4 mx-auto w-max align-self-center"></button>
+              <button pButton pRipple type="button" label="Cancel" (click)="toggleUserEdit(false)"
+                      class="p-button-text p-button-danger  focus:shadow-4 mx-auto w-max align-self-center"></button>
+            </form>
+          </div>
+          <div *ngIf="!editMode.userEdit" class="text-center">
+            <div class="grid">
+              <div class="col-12 flex grid-sep-info">
+                <div class="col">
+                  <div class="left-row-item">Name:</div>
+                  <div class="left-row-item">Surname:</div>
+                  <div class="left-row-item">Email:</div>
+                  <div class="left-row-item">Role:</div>
+                </div>
+                <p-divider layout="vertical"></p-divider>
+                <div class="col">
+                  <div class="right-row-item">{{user.name}}</div>
+                  <div class="right-row-item">{{user.surname}}</div>
+                  <div class="right-row-item">{{user.email}}</div>
+                  <div class="right-row-item">{{user.role.toLocaleLowerCase()}}</div>
+                </div>
+              </div>
+              <div class="col">
+                <button pButton pRipple label="Edit" [loading]="loading" (click)="toggleUserEdit(true)"
+                        class="p-button-text focus:shadow-4 mx-auto w-max mt-2 align-self-center"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <p-divider></p-divider>
+
+
+  <div class="flex flex-column align-items-center">
+    <div *ngIf="isCustomer">
+      <div *ngIf="editMode.customerEdit" class="w-full">
+        <form #editCustomerForm="ngForm" (ngSubmit)="editCustomerForm.valid && updateCustomer()"
+              class="text-center">
+          <div class="col-12 md:col-12">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+              <input type="text" pInputText placeholder="Name" name="name" [(ngModel)]="customer.name">
+            </div>
+          </div>
+          <div class="col-12 md:col-12">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"><i class="fa-solid fa-phone"></i></span>
+              <input type="text" pInputText placeholder="Phone" name="phone" [(ngModel)]="customer.phone">
+            </div>
+          </div>
+          <button pButton pRipple type="submit" label="Save" [loading]="loading"
+                  class="p-button-text p-button-success focus:shadow-4 mx-auto w-max align-self-center"></button>
+          <button pButton pRipple type="button" label="Cancel" (click)="toggleCustomerEdit(false)"
+                  class="p-button-text p-button-danger  focus:shadow-4 mx-auto w-max align-self-center"></button>
+        </form>
+      </div>
+      <div *ngIf="!editMode.customerEdit" class="text-center">
+        <div class="grid">
+          <div class="col">
+            <h3>{{user.role}}</h3>
+          </div>
+          <div class="col-12 flex grid-sep-info">
+            <div class="col">
+              <div class="left-row-item">Name:</div>
+              <div class="left-row-item">Phone:</div>
+            </div>
+            <p-divider layout="vertical"></p-divider>
+            <div class="col">
+              <div class="right-row-item">{{customer.name}}</div>
+              <div class="right-row-item">{{customer.phone}}</div>
+            </div>
+          </div>
+          <div class="col">
+            <button pButton pRipple label="Edit" [loading]="loading" (click)="toggleCustomerEdit(true)"
+                    class="p-button-text focus:shadow-4 mx-auto w-max mt-2 align-self-center"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isTransporter">
+      <div *ngIf="editMode.transporterEdit" class="w-full">
+        <form #editTransporterEditForm="ngForm" (ngSubmit)="editTransporterEditForm.valid && updateTransporter()"
+              class="text-center">
+          <div class="col-12 md:col-12">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+              <input type="text" pInputText placeholder="Name" name="name" [(ngModel)]="transporter.name">
+            </div>
+          </div>
+          <div class="col-12 md:col-12">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"><i class="fa-solid fa-phone"></i></span>
+              <input type="text" pInputText placeholder="Surname" name="surname" [(ngModel)]="transporter.phone">
+            </div>
+          </div>
+          <button pButton pRipple type="submit" label="Save" [loading]="loading"
+                  class="p-button-text p-button-success focus:shadow-4 mx-auto w-max align-self-center"></button>
+          <button pButton pRipple type="button" label="Cancel" (click)="toggleTransporterEdit(false)"
+                  class="p-button-text p-button-danger  focus:shadow-4 mx-auto w-max align-self-center"></button>
+        </form>
+      </div>
+      <div *ngIf="!editMode.transporterEdit" class="text-center">
+        <div class="grid">
+          <div class="col">
+            <h3>{{user.role}}</h3>
+          </div>
+          <div class="col-12 flex grid-sep-info">
+            <div class="col">
+              <div class="left-row-item">Name:</div>
+              <div class="left-row-item">Phone:</div>
+            </div>
+            <p-divider layout="vertical"></p-divider>
+            <div class="col">
+              <div class="right-row-item">{{transporter.name}}</div>
+              <div class="right-row-item">{{transporter.phone}}</div>
+            </div>
+          </div>
+          <div class="col">
+            <button pButton pRipple label="Edit" [loading]="loading" (click)="toggleTransporterEdit(true)"
+                    class="p-button-text focus:shadow-4 mx-auto w-max mt-2 align-self-center"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="isCustomer">
+    <p-divider></p-divider>
+    <form #deliveryForm="ngForm" (ngSubmit)="deliveryForm.valid && createDelivery()">
+      <h2 class="form-title text-center mb-3">Create Delivety</h2>
+      <div class="flex flex-column align-items-center">
+        <div class="col-title-form">Address from</div>
+        <div class="flex">
+          <div class="p-inputgroup mx-2">
+            <span class="p-inputgroup-addon"><i class="fa-solid fa-earth-americas"></i></span>
+            <input type="text" pInputText placeholder="Country" name="countryFrom"
+                   [(ngModel)]="deliveryCredential.country_from" required>
+          </div>
+          <div class="p-inputgroup mx-2">
+            <span class="p-inputgroup-addon"><i class="fa-solid fa-city"></i></span>
+            <input type="text" pInputText placeholder="City" name="cityFrom"
+                   [(ngModel)]="deliveryCredential.city_from" required>
+          </div>
+          <div class="p-inputgroup mx-2">
+            <span class="p-inputgroup-addon"><i class="fa-solid fa-road"></i></span>
+            <input type="text" pInputText placeholder="Street" name="streetFrom"
+                   [(ngModel)]="deliveryCredential.street_from" required>
+          </div>
+        </div>
+        <div class="col-title-form">Address to</div>
+        <div class="flex">
+          <div class="p-inputgroup mx-2">
+            <span class="p-inputgroup-addon"><i class="fa-solid fa-earth-americas"></i></span>
+            <input type="text" pInputText placeholder="Country" name="countryTo"
+                   [(ngModel)]="deliveryCredential.country_to" required>
+          </div>
+          <div class="p-inputgroup mx-2">
+            <span class="p-inputgroup-addon"><i class="fa-solid fa-city"></i></span>
+            <input type="text" pInputText placeholder="City" name="cityTo"
+                   [(ngModel)]="deliveryCredential.city_to" required>
+          </div>
+          <div class="p-inputgroup mx-2">
+            <span class="p-inputgroup-addon"><i class="fa-solid fa-road"></i></span>
+            <input type="text" pInputText placeholder="Street" name="streetTo"
+                   [(ngModel)]="deliveryCredential.street_to" required>
+          </div>
+        </div>
+        <div class="col-title-form">Dates</div>
+        <div class="flex">
+          <div class="p-inputgroup mx-2">
+            <span class="p-inputgroup-addon"><i class="fa-regular fa-calendar-days"></i></span>
+            <input type="text" pInputText placeholder="Departure date" name="departureDate"
+                   [(ngModel)]="deliveryCredential.departureDate" required>
+          </div>
+          <div class="p-inputgroup mx-2">
+            <span class="p-inputgroup-addon"><i class="fa-regular fa-calendar-days"></i></span>
+            <input type="text" pInputText placeholder="Arrival date" name="arrivalDate"
+                   [(ngModel)]="deliveryCredential.arrivalDate" required>
+          </div>
+        </div>
+        <div class="col-title-form">Description</div>
+        <textarea [rows]="5" pInputTextarea placeholder="Description" name="description" class="textarea-vertical-resize w-5 mt-3"
+                  [(ngModel)]="deliveryCredential.description"></textarea>
+        <div class="col-title-form">Price</div>
+        <div class="flex">
+          <div class="p-inputgroup mx-2">
+            <span class="p-inputgroup-addon"><i class="fa-solid fa-money-bill-wave"></i></span>
+            <input type="text" pInputText placeholder="Price" name="price"
+                   [(ngModel)]="deliveryCredential.price" required>
+          </div>
+          <p-dropdown [options]="unitPrice" [(ngModel)]="deliveryCredential.unit" name="unit" placeholder="Select unit"
+                      styleClass="mb-2 md:mb-0">
+          </p-dropdown>
+        </div>
+        <div class="cargo-card-title">Cargos</div>
+        <div class="flex flex-column cargo-card">
+          <div class="flex lg:align-self-center mb-2">
+            <div class="p-inputgroup mx-2">
+              <span class="p-inputgroup-addon"><i class="fa-regular fa-calendar-days"></i></span>
+              <input type="text" pInputText placeholder="Name" name="name"
+                     [(ngModel)]="cargoCredential.name" required>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="p-inputgroup mx-2 mb-2">
+              <span class="p-inputgroup-addon"><i class="fa-solid fa-money-bill-wave"></i></span>
+              <p-inputNumber inputId="integeronly" [(ngModel)]="cargoCredential.count" placeholder="Count" name="count"></p-inputNumber>
+            </div>
+            <div class="p-inputgroup mx-2 mb-2">
+              <span class="p-inputgroup-addon"><i class="fa-solid fa-money-bill-wave"></i></span>
+              <input type="text" pInputText placeholder="Unit" name="unit"
+                     [(ngModel)]="cargoCredential.unit" required>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="p-inputgroup mx-2 mb-2">
+              <span class="p-inputgroup-addon"><i class="fa-solid fa-money-bill-wave"></i></span>
+              <p-inputNumber inputId="integeronly" [(ngModel)]="cargoCredential.totalWeight" placeholder="Total weight" name="totalWeight"></p-inputNumber>
+            </div>
+            <div class="p-inputgroup mx-2 mb-2">
+              <span class="p-inputgroup-addon"><i class="fa-solid fa-money-bill-wave"></i></span>
+              <input type="text" pInputText placeholder="Total volume" name="totalVolume" [(ngModel)]="cargoCredential.totalVolume">
+            </div>
+          </div>
+          <div class="flex justify-content-center mt-2">
+            <div class="field-checkbox">
+              <p-checkbox [(ngModel)]="cargoCredential.isFragile" [binary]="true" name="isFragile" inputId="binary"></p-checkbox>
+              <label class="text-white font-bold">Fragile</label>
+            </div>
+          </div>
+          <button pButton pRipple type="button" [loading]="loading" pTooltip="Add" (click)="addToCargos()"
+                  class="p-button-text focus:shadow-4 mt-3 mb-3 mx-auto w-max">
+            <i class="fa-solid fa-plus" style="color: white; font-size: 2rem"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-wrap mt-5">
+          <ng-template ngFor let-item [ngForOf]="deliveryCredential.cargos" class="mt-2">
+            <p-card class="my-card mt-2 mx-2">
+              <div *ngIf="item.isFragile">
+                <div class="text-red-700">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  Fragile
+                </div>
+              </div>
+              <div>{{item.name}}</div>
+              <div class="mt-2">{{item.count}} {{item.unit}}</div>
+              <div class="mt-2">Total weight: {{item.totalWeight}} kg</div>
+              <div class="mt-2">Total volume: {{item.totalVolume}} m<sup>2</sup></div>
+            </p-card>
+          </ng-template>
+        </div>
+
+        <button pButton pRipple type="submit" label="Create" [loading]="loading"
+                class="p-button-text focus:shadow-4 mt-3 mb-3 mx-auto w-max"></button>
+      </div>
+    </form>
+
+    <a name="customerDelivery"></a>
+    <p-dataView [value]="deliveries.content" [loading]="loading"
+                [lazy]="true" (onLazyLoad)="onLazyLoadDelivery($event)" [totalRecords]="deliveries.totalElements"
+                [paginator]="true" [rows]="deliveries.size" [showCurrentPageReport]="true" layout="list" sortField="price" [sortOrder]="-1"
+                currentPageReportTemplate="{first} to {last} of {totalRecords} total">
+      <ng-template pTemplate="header">
+        <div class="flex flex-column md:flex-row md:justify-content-between">
+          <p-dropdown [options]="sortOptionsDelivery" [(ngModel)]="sortKeyDelivery" placeholder="Sort By Price"
+                      (onChange)="onSortChangeDelivery($event)" styleClass="mb-2 md:mb-0">
+          </p-dropdown>
+          <span class="p-input-icon-left mb-2 md:mb-0">
+          <i class="pi pi-search"></i>
+          <input type="search" pInputText placeholder="Search"
+                 [(ngModel)]="searchTermDelivery" (input)="onSearchTermInputDelivery($event)">
+        </span>
+        </div>
+      </ng-template>
+      <ng-template let-delivery pTemplate="listItem">
+        <div class="col-12">
+          <div class="product-list-item">
+            <img src="https://placehold.co/150x150?text=CustomerLogo"/>
+            <div class="product-list-detail">
+              <div class="product-name">{{delivery.customer.name}}</div>
+              <div class="product-description">{{delivery.description}}</div>
+              <span class="product-way-info">
+              {{delivery.country_from}} {{delivery.city_from}}
+                <i class="fa-solid fa-arrow-right"></i>
+                {{delivery.country_to}} {{delivery.city_to}}
+            </span>
+              <i class="fa-solid fa-calendar-days product-category-icon"></i>
+              <span class="product-category">Departure date: {{delivery.departureDate | date: 'MM/dd/yyyy'}}</span>
+            </div>
+            <div class="product-list-action">
+              <span class="product-price">{{delivery.price}} {{delivery.unit}}</span>
+              <p-button label="Details" [disabled]="delivery.status === DeliveryStatus.CANCELED" [routerLink]="'/deliveries/item/' + delivery.id">
+                <i class="fa-regular fa-eye details-icon"></i>
+              </p-button>
+              <span [class]="'product-badge status-' + delivery.status.toLowerCase()">{{delivery.status.replace('_', ' ')}}</span>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
+
+  <a href="#transporterOffers"></a>
+  <div *ngIf="isTransporter">
+    <p-divider></p-divider>
+
+    <div class="text-header">Your offers</div>
+    <p-dataView [value]="offers.content" [loading]="loadingDataView"
+                [lazy]="true" (onLazyLoad)="onLazyLoadOffer($event)" [totalRecords]="offers.totalElements"
+                [paginator]="true" [rows]="offers.size" [showCurrentPageReport]="true" layout="list" sortField="name" [sortOrder]="-1"
+                currentPageReportTemplate="{first} to {last} of {totalRecords} total">
+      <ng-template pTemplate="header">
+        <div class="flex flex-column md:flex-row md:justify-content-between">
+          <p-dropdown [options]="sortOptionsOffer" [(ngModel)]="sortKeyOffer" placeholder="Sort By Price"
+                      (onChange)="onSortChangeOffer($event)" styleClass="mb-2 md:mb-0">
+          </p-dropdown>
+          <span class="p-input-icon-left mb-2 md:mb-0">
+          <i class="pi pi-search"></i>
+          <input type="search" pInputText placeholder="Search"
+                 [(ngModel)]="searchTermOffer" (input)="onSearchTermInputOffer($event)">
+        </span>
+        </div>
+      </ng-template>
+      <ng-template let-offer pTemplate="listItem">
+        <p-card class="my-card m-2">
+          <div class="flex w-full justify-content-between">
+            <div>
+              <span class="offer-status offer-status-{{offer.status.toLowerCase()}}">{{offer.status.replace('_', ' ')}}</span>
+              <h3 class="mt-2">{{offer.transporter.name}}</h3>
+              <div class="mt-3">{{offer.description}}</div>
+            </div>
+            <div class="flex">
+              <p-divider layout="vertical" class="test"></p-divider>
+              <div class="flex flex-column">
+                <button pButton pRipple type="button" label="Go to delivery" [routerLink]="'/deliveries/item/' + offer.delivery.id"
+                        class="p-button-raised p-button-danger text-white focus:shadow-4 mt-2"></button>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </ng-template>
+    </p-dataView>
+  </div>
+</div>

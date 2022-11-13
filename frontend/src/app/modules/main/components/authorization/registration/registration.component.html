@@ -1,0 +1,84 @@
+<form #registerForm="ngForm" (ngSubmit)="registerForm.valid && register()"
+      class="shadow-3">
+  <h2 class="form-title">Registration</h2>
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="fa-solid fa-envelope"></i></span>
+        <input type="email" pInputText
+               placeholder="E-mail"
+               name="email" [(ngModel)]="credential.email"
+               email required>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <div class="flex">
+        <span class="p-inputgroup-addon"><i class="fa-solid fa-lock"></i></span>
+        <p-password [(ngModel)]="credential.password" [toggleMask]="true"
+                    placeholder="Password"
+                    name="password">
+          <ng-template pTemplate="header">
+            <h6>Pick a password</h6>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <p-divider></p-divider>
+            <p class="mt-2">Suggestions</p>
+            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+              <li>At least one lowercase</li>
+              <li>At least one uppercase</li>
+              <li>At least one numeric</li>
+              <li>Minimum 8 characters</li>
+            </ul>
+          </ng-template>
+        </p-password>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <div class="flex">
+        <span class="p-inputgroup-addon"><i class="fa-solid fa-lock"></i></span>
+        <p-password [(ngModel)]="confirmPassword"
+                    [toggleMask]="true"
+                    [feedback]="false"
+                    placeholder="Confirm"
+                    name="confirm">
+        </p-password>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="fa-solid fa-lock"></i></span>
+        <input type="text" pInputText
+               placeholder="Name"
+               name="name" [(ngModel)]="credential.name"
+               required>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="fa-solid fa-lock"></i></span>
+        <input type="text" pInputText
+               placeholder="Surname"
+               name="surname" [(ngModel)]="credential.surname"
+               required>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <p-selectButton [options]="stateOptions"
+                      [(ngModel)]="credential.role"
+                      name="role"
+                      optionLabel="label"
+                      optionValue="value">
+      </p-selectButton>
+    </div>
+
+    <button pButton pRipple type="submit" label="Register"
+            [loading]="loading"
+            class="p-button-text focus:shadow-4 mx-auto w-max"></button>
+  </div>
+</form>
+
